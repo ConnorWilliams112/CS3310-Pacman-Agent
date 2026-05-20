@@ -87,10 +87,7 @@ def depthFirstSearch(problem: SearchProblem):
     print("Start's successors:", problem.getSuccessors(problem.getStartState()))
     """
     "*** YOUR CODE HERE ***"
-    print("Start:", problem.getStartState())
-    print("Is the start a goal?", problem.isGoalState(problem.getStartState()))
-    print("Start's successors:", problem.getSuccessors(problem.getStartState()))
-    frontier = [(node(problem.getStartState()))] # Modifed code from lab 2
+    frontier = [(node(problem.getStartState()))] # Modifed code from lab 2 submission
     explored = set()
     while frontier:
         node = frontier.pop()
