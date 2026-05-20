@@ -107,17 +107,23 @@ def depthFirstSearch(problem: SearchProblem):
 def breadthFirstSearch(problem: SearchProblem):
     """Search the shallowest nodes in the search tree first."""
     "*** YOUR CODE HERE ***"
+    # I used a combination of Claude AI and Gemini Pro 3.1 model to help me here. I started with lab 2 BFS and modified it to leverage the util.py file that was given in the problem.
 
-    frontier = [(problem.getStartState(),[])]
-    explored = set()
-    while frontier:
+    frontier = util.Queue()                   # AI (Claude) helped me modify this part of the code
+    start_state = problem.getStartState()         # AI (Claude) helped me modify this part of the code
+    frontier.push((start_state, []))             # AI (Claude) helped me modify this part of the code 
+    explored = set()                     # AI (Claude) helped me modify this part of the code
+    while not frontier.isEmpty():
         state, actions = frontier.pop()
-        explored.add(state)
-        for child in problem.getSuccessors(state):
+        if problem.isGoalState(state):
+            return actions
+        explored.add(state) 
+        for child in problem.getSuccessors(state):           # AI (Claude) helped me modify this part of the code
             if child[0] not in explored:
-                if problem.isGoalState(child[0]):
-                    return actions + [child[1]]
-    
+                if problem.isGoalState(child[1]):         # AI (Claude) helped me modify this part of the code
+                    return actions + [child[1]]         # AI (Claude) helped me modify this part of the code
+                frontier.push((child[0], actions + [child[1]])) # AI (Claude) helped me modify this part of the code
+                explored.add(child[0])  # AI (Claude) helped me modify this part of the code
     return None
 
     util.raiseNotDefined()
