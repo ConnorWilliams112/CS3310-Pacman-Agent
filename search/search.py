@@ -132,6 +132,28 @@ def uniformCostSearch(problem: SearchProblem):
     """Search the node of least total cost first."""
     "*** YOUR CODE HERE ***"
 
+    # To do this i started with BFS code becuase it is very similiary in the fact that it is on a queue
+    frontier = util.PriorityQueue()            
+    start_state = problem.getStartState()  
+    start_item = (start_state, [], 0)                 # Gemini 3.1 Pro helped me here 
+    start_priority = 0                                 # Gemini 3.1 Pro helped me here    
+    frontier.push((start_state,[]), start_priority)   # Gemini 3.1 Pro helped me here           
+    explored = set()                     
+    while not frontier.isEmpty():
+        state, actions = frontier.pop()
+        if problem.isGoalState(state):
+            return actions
+        if state not in explored:
+            explored.add(state)
+            for child in problem.getSuccessors(state):           
+                successor_state = child[0]                       
+                successor_action = child[1]                     
+                if successor_state not in explored:   
+                    next_actions = actions + [successor_action]                # Gemini 3.1 Pro helped me here
+                    item = (successor_state, next_actions)                    # Gemini 3.1 Pro helped me here
+                    priority = problem.getCostOfActions(next_actions)         # Gemini 3.1 Pro helped me here
+                    frontier.update(item, priority)                             # Gemini 3.1 Pro helped me here
+    return None 
 
 
     util.raiseNotDefined()
