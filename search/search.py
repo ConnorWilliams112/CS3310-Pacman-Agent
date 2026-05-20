@@ -117,20 +117,23 @@ def breadthFirstSearch(problem: SearchProblem):
         state, actions = frontier.pop()
         if problem.isGoalState(state):
             return actions
-        explored.add(state) 
-        for child in problem.getSuccessors(state):           # AI (Claude) helped me modify this part of the code
-            if child[0] not in explored:
-                if problem.isGoalState(child[1]):         # AI (Claude) helped me modify this part of the code
-                    return actions + [child[1]]         # AI (Claude) helped me modify this part of the code
-                frontier.push((child[0], actions + [child[1]])) # AI (Claude) helped me modify this part of the code
-                explored.add(child[0])  # AI (Claude) helped me modify this part of the code
-    return None
+        if state not in explored:
+            explored.add(state)
+            for child in problem.getSuccessors(state):           # AI (Claude) helped me modify this part of the code
+                successor_state = child[0]                       # AI (Claude) helped me modify this part of the code
+                successor_action = child[1]                     # AI (Claude) helped me modify this part of the code
+                if successor_state not in explored:              # AI (Claude) helped me modify this part of the code
+                    frontier.push((successor_state, actions + [successor_action])) # AI (Claude) helped me modify this part of the code
+    return None 
 
     util.raiseNotDefined()
 
 def uniformCostSearch(problem: SearchProblem):
     """Search the node of least total cost first."""
     "*** YOUR CODE HERE ***"
+
+
+
     util.raiseNotDefined()
 
 def nullHeuristic(state, problem=None):
