@@ -87,23 +87,26 @@ def depthFirstSearch(problem: SearchProblem):
     print("Start's successors:", problem.getSuccessors(problem.getStartState()))
     """
     "*** YOUR CODE HERE ***"
-    frontier = [(node(problem.getStartState()))] # Modifed code from lab 2 submission
+    frontier = [(problem.getStartState(),[])] # Modifed code from lab 2 submission as I was modifying the code AI Claude made suggestions on how to modfiy my lab 2 code to gte it working with this code. 
     explored = set()
     while frontier:
-        node = frontier.pop()
-        if problem.goal_test(node.state):
-            return node
-        explored.add(node.state)
+        state, actions = frontier.pop()            # AI (Claude) helped me modify this part of the code
+        if problem.isGoalState(state):            # AI (Claude) helped me modify this part of the code
+            return actions
+        if state not in explored:        # AI (Claude) helped me modify this part of the code from what I had in lab 2 to make it work here. 
+            explored.add(state)                             # AI (Claude) helped me modify this part of the code
+            for child in problem.getSuccessors(state):    # AI (Claude) helped me modify this part of the code
+                if child[0] not in explored:                # AI (Claude) helped me modify this part of the code
+                    frontier.append((child[0], actions + [child[1]])) # AI (Claude) helped me modify this part of the code
+    return []
 
-        for child in node.expand(problem):
-            if child.state not in explored and child not in frontier:
-                frontier.append(child)
-
-        return None
 
 def breadthFirstSearch(problem: SearchProblem):
     """Search the shallowest nodes in the search tree first."""
     "*** YOUR CODE HERE ***"
+
+
+
     util.raiseNotDefined()
 
 def uniformCostSearch(problem: SearchProblem):
