@@ -90,14 +90,12 @@ class Node:
 
     def expand(self, problem):
         """List the nodes reachable in one step from this node."""
-        return [self.child_node(problem, action)
-                for action in problem.actions(self.state)]
-
-    def child_node(self, problem, action):
-        """[Figure 3.10]"""
-        next_state = problem.result(self.state, action)
-        next_node = Node(next_state, self, action, problem.path_cost(self.path_cost, self.state, action, next_state))
-        return next_node
+        children = []
+        for successor, action, stepCost in problem.getSuccessors(self.state):
+            new_cost = self.path_cost + stepCost
+            child_node = Node(successor, self, action, new_cost)
+            children.append(child_node)
+        return children
 
     def solution(self):
         """Return the sequence of actions to go from the root to this node."""
@@ -234,25 +232,21 @@ def aStarSearch(problem: SearchProblem, heuristic=nullHeuristic):
     "*** YOUR CODE HERE ***"
     frontier = PriorityQueue()
     explored = set()
-    nodes_generated = 0
     
-    initial_node = Node(problem.initial)
+    initial_node = Node(problem.getStartState())
     frontier.put((heuristic(initial_node, problem), initial_node))
-    nodes_generated += 1
     
-    while frontier:
+    while not frontier.empty():
         priority, node = frontier.get()
-        explored.add(node.state)
-        for child in node.expand(problem):
-            nodes_generated += 1
-            if child.state not in explored:
-                if problem.goal_test(child.state):
-                    print(f"Nodes generated: {nodes_generated}")
-                    return child
-                f = child.path_cost + heuristic(child, problem)
-                frontier.put((f, child))
-    print(f"Nodes generated: {nodes_generated}")
-    return None
+        if problem.isGoalState(node.state):
+            return node.solution()
+        if node.state not in explored:
+            explored.add(node.state)
+            for child in node.expand(problem):
+                if child.state not in explored:
+                    f = child.path_cost + heuristic(child, problem)
+                    frontier.put((f, child))
+    return []
 
 def h1(node, problem):
     '''
