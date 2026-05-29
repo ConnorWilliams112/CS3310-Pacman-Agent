@@ -234,7 +234,7 @@ def aStarSearch(problem: SearchProblem, heuristic=nullHeuristic):
     explored = set()
     
     initial_node = Node(problem.getStartState())
-    frontier.put((heuristic(initial_node, problem), initial_node))
+    frontier.put((heuristic(initial_node.state, problem), initial_node))
     
     while not frontier.empty():
         priority, node = frontier.get()
@@ -244,7 +244,7 @@ def aStarSearch(problem: SearchProblem, heuristic=nullHeuristic):
             explored.add(node.state)
             for child in node.expand(problem):
                 if child.state not in explored:
-                    f = child.path_cost + heuristic(child, problem)
+                    f = child.path_cost + heuristic(child.state, problem)
                     frontier.put((f, child))
     return []
 
