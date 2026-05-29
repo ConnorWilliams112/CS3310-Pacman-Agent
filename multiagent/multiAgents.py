@@ -138,6 +138,62 @@ class MinimaxAgent(MultiAgentSearchAgent):
         """
         "*** YOUR CODE HERE ***"
         util.raiseNotDefined()
+    
+    def minimax(self, gameState: GameState, depth: int, agentIndex: int):
+        """
+        Recursive minimax function that explores the game tree.
+        
+        Args:
+            gameState: The current game state to evaluate
+            depth: Current depth in the search tree (decrements to 0)
+            agentIndex: Index of the agent whose turn it is (0=Pacman, >=1=ghosts)
+        
+        Returns:
+            The minimax value (score) for the current state
+
+        - Check terminal states (win/lose) and depth limit
+        - If MAX layer (Pacman's turn):
+            - Try all legal actions, recurse with agentIndex+1
+            - Return max value and corresponding action
+        - If MIN layer (ghost's turn):
+            - Try all legal actions, recurse with agentIndex+1 (wrapping around)
+            - Return min value
+        """
+        "*** YOUR CODE HERE ***"
+        util.raiseNotDefined()
+    
+    def maxValue(self, gameState: GameState, depth: int, agentIndex: int):
+        """
+        Computes the maximum value achievable for Pacman (maximizing agent).
+        Called when it's Pacman's turn (agentIndex == 0).
+        
+        Args:
+            gameState: The current game state
+            depth: Current depth in the search tree
+            agentIndex: Should be 0 (Pacman)
+        
+        Returns:
+            The maximum score Pacman can achieve from this state
+        """
+        "*** YOUR CODE HERE ***"
+        util.raiseNotDefined()
+    
+    def minValue(self, gameState: GameState, depth: int, agentIndex: int):
+        """
+        Computes the minimum value (from Pacman's perspective) achievable by ghosts (minimizing agents).
+        Called when it's a ghost's turn (agentIndex >= 1).
+        
+        Args:
+            gameState: The current game state
+            depth: Current depth in the search tree
+            agentIndex: Index of the ghost (1, 2, 3, ...)
+        
+        Returns:
+            The minimum score (best for ghosts, worst for Pacman) from this state
+        """
+        "*** YOUR CODE HERE ***"
+        util.raiseNotDefined()
+    
 
 
 class ExpectimaxAgent(MultiAgentSearchAgent):
@@ -151,6 +207,53 @@ class ExpectimaxAgent(MultiAgentSearchAgent):
 
         All ghosts should be modeled as choosing uniformly at random from their
         legal moves.
+        """
+        "*** YOUR CODE HERE ***"
+        util.raiseNotDefined()
+    
+    def expectimax(self, gameState: GameState, depth: int, agentIndex: int):
+        """
+        Recursive expectimax function that explores the game tree with expected values for ghosts.
+        
+        Args:
+            gameState: The current game state to evaluate
+            depth: Current depth in the search tree (decrements to 0)
+            agentIndex: Index of the agent whose turn it is (0=Pacman, >=1=ghosts)
+        
+        Returns:
+            The expectimax value (expected score) for the current state
+        """
+        "*** YOUR CODE HERE ***"
+        util.raiseNotDefined()
+    
+    def maxValue(self, gameState: GameState, depth: int, agentIndex: int):
+        """
+        Computes the maximum value achievable for Pacman (maximizing agent).
+        Called when it's Pacman's turn (agentIndex == 0).
+        
+        Args:
+            gameState: The current game state
+            depth: Current depth in the search tree
+            agentIndex: Should be 0 (Pacman)
+        
+        Returns:
+            The maximum score Pacman can achieve from this state
+        """
+        "*** YOUR CODE HERE ***"
+        util.raiseNotDefined()
+    
+    def expectValue(self, gameState: GameState, depth: int, agentIndex: int):
+        """
+        Computes the expected value when ghosts choose uniformly at random (minimizing agents).
+        Called when it's a ghost's turn (agentIndex >= 1).
+        
+        Args:
+            gameState: The current game state
+            depth: Current depth in the search tree
+            agentIndex: Index of the ghost (1, 2, 3, ...)
+        
+        Returns:
+            The expected score (average of all possible ghost moves) from this state
         """
         "*** YOUR CODE HERE ***"
         util.raiseNotDefined()
