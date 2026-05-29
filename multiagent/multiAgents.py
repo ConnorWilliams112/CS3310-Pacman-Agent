@@ -325,8 +325,78 @@ class AlphaBetaAgent(MultiAgentSearchAgent):
         """
         Returns the minimax action using self.depth and self.evaluationFunction
         """
-        "*** YOUR CODE HERE ***"
-        util.raiseNotDefined()
+
+        actions = gameState.getLegalActions(0)
+
+        bestAction = None
+        bestScore = float("-inf")
+        alpha = float("-inf")
+        beta = float("inf")
+
+        for action in actions:
+            successor = gameState.generateSuccessor(0, action)
+            score = self.alphabeta(successor, self.depth, 1, alpha, beta)
+
+            if score > bestScore:
+                bestScore = score
+                bestAction = action
+
+            alpha = max(alpha, bestScore)
+
+        return bestAction
+
+    def alphabeta(self, gameState, depth, agentIndex, alpha, beta):
+        if depth == 0 or gameState.isWin() or gameState.isLose():
+            return self.evaluationFunction(gameState)
+
+        if agentIndex == 0:
+            return self.maxValue(gameState, depth, agentIndex, alpha, beta)
+        else:
+            return self.minValue(gameState, depth, agentIndex, alpha, beta)
+
+    def maxValue(self, gameState, depth, agentIndex, alpha, beta):
+
+        value = float("-inf")
+
+        for action in gameState.getLegalActions(agentIndex):
+            successor = gameState.generateSuccessor(agentIndex, action)
+
+            nextAgent = (agentIndex + 1) % gameState.getNumAgents()
+            if nextAgent == 0:
+                nextDepth = depth -1
+            else:
+                nextDepth = depth
+
+            value = max(value, self.alphabeta(successor, nextDepth, nextAgent, alpha, beta))
+
+            if value > beta:
+                return value
+
+            alpha = max(alpha, value)
+
+        return value
+
+    def minValue(self, gameState, depth, agentIndex, alpha, beta):
+
+        value = float("inf")
+
+        for action in gameState.getLegalActions(agentIndex):
+            successor = gameState.generateSuccessor(agentIndex, action)
+
+            nextAgent = (agentIndex + 1) % gameState.getNumAgents()
+            if nextAgent == 0:
+                nextDepth = depth -1
+            else:
+                nextDepth = depth
+
+            value = min(value, self.alphabeta(successor, nextDepth, nextAgent, alpha, beta))
+
+            if value < alpha:
+                return value
+
+            beta = min(beta, value)
+
+        return value
 
 
 def betterEvaluationFunction(currentGameState: GameState):
