@@ -432,7 +432,45 @@ def betterEvaluationFunction(currentGameState: GameState):
     DESCRIPTION: <write something here so we know what you did>
     """
     "*** YOUR CODE HERE ***"
-    util.raiseNotDefined()
+    newPos = currentGameState.getPacmanPosition()
+    newFood = currentGameState.getFood()
+    newGhostStates = currentGameState.getGhostStates()
+    newScaredTimes = [ghostState.scaredTimer for ghostState in newGhostStates]
+
+    score = currentGameState.getScore()
+
+    # reward for being close to food
+    foodList = newFood.asList()
+    if foodList:
+        closestFood = min(manhattanDistance(newPos, food) for food in foodList)
+        score += 10 / max(closestFood, 1)
+
+    # reward / penalty based on ghost state
+    for i in range(len(newGhostStates)):
+        ghostState = newGhostStates[i]
+        scaredTime = newScaredTimes[i]
+
+        ghostPos = ghostState.getPosition()
+        ghostDist = manhattanDistance(newPos, ghostPos)
+
+        # if ghost is scared, add points. More points for being closer to ghost (max(ghostDist,1))
+        if scaredTime > 0 and scaredTime > ghostDist-2:
+            score += 200 / max(ghostDist, 1)
+
+        # ghost is not scared, subtract points for being next to it (Dist <=1)
+        elif ghostDist <= 1:
+            score -= 1000
+
+        # ghost is not scared, subtract points the closer you are to it
+        else:
+            score -= 3 / ghostDist
+
+
+
+    return score    
+
+        
+    
 
 
 
