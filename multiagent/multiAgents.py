@@ -444,7 +444,7 @@ def betterEvaluationFunction(currentGameState: GameState):
     if foodList:
         closestFood = min(manhattanDistance(newPos, food) for food in foodList)
         score += 10 / max(closestFood, 1)
-        score += -1 * len(foodList)
+        score += -0.5 * len(foodList)
 
     # reward / penalty based on ghost state
     for i in range(len(newGhostStates)):
@@ -455,7 +455,7 @@ def betterEvaluationFunction(currentGameState: GameState):
         ghostDist = manhattanDistance(newPos, ghostPos)
 
         # if ghost is scared, add points. More points for being closer to ghost (max(ghostDist,1))
-        if scaredTime > 0 and scaredTime > ghostDist-2:
+        if scaredTime > 0 and scaredTime > ghostDist-1:
             score += 200 / max(ghostDist, 1)
 
         # ghost is not scared, subtract points for being next to it (Dist <=1)
@@ -464,7 +464,7 @@ def betterEvaluationFunction(currentGameState: GameState):
 
         # ghost is not scared, subtract points the closer you are to it
         else:
-            score -= 3 / ghostDist
+            score -= 1 / ghostDist
 
 
 
