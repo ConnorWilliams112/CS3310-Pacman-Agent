@@ -436,6 +436,7 @@ def betterEvaluationFunction(currentGameState: GameState):
     newFood = currentGameState.getFood()
     newGhostStates = currentGameState.getGhostStates()
     newScaredTimes = [ghostState.scaredTimer for ghostState in newGhostStates]
+    capsules = currentGameState.getCapsules() # AI Gemeni 3.1 Pro helped me realize that this could be used to tune since they are worth more points
 
     score = currentGameState.getScore()
 
@@ -445,6 +446,10 @@ def betterEvaluationFunction(currentGameState: GameState):
         closestFood = min(manhattanDistance(newPos, food) for food in foodList)
         score += 10 / max(closestFood, 1)
         score += -0.5 * len(foodList)
+    
+    if capsules:
+        closestCapsule = min(manhattanDistance(newPos, capsule) for capsule in capsules)
+        score += 10 / (max(closestCapsule, 1)+1)
 
     # reward / penalty based on ghost state
     for i in range(len(newGhostStates)):
@@ -465,9 +470,6 @@ def betterEvaluationFunction(currentGameState: GameState):
         # ghost is not scared, subtract points the closer you are to it
         else:
             score -= 1 / ghostDist
-
-
-
     return score    
 
         
