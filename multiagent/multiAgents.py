@@ -139,7 +139,7 @@ class MinimaxAgent(MultiAgentSearchAgent):
         "*** YOUR CODE HERE ***"
         #Returns action for the top-level call, score for recursive calls
         actions = gameState.getLegalActions(0)
-        return max(actions, key=lambda action: self.minimax(gameState.generateSuccessor(0, action), self.depth - 1, 1))
+        return max(actions, key=lambda action: self.minimax(gameState.generateSuccessor(0, action), self.depth, 1))
     
     def minimax(self, gameState: GameState, depth: int, agentIndex: int):
         """
@@ -187,7 +187,9 @@ class MinimaxAgent(MultiAgentSearchAgent):
         maxScore = float('-inf')
         for action in actions:
             successor = gameState.generateSuccessor(agentIndex, action)
-            score = self.minimax(successor, depth - 1, (agentIndex + 1) % numAgents)
+            nextAgent = (agentIndex + 1) % numAgents
+            nextDepth = depth - 1 if nextAgent == 0 else depth
+            score = self.minimax(successor, nextDepth, nextAgent)
             maxScore = max(maxScore, score)
         return maxScore
 
@@ -205,11 +207,14 @@ class MinimaxAgent(MultiAgentSearchAgent):
         Returns:
             The minimum score (best for ghosts, worst for Pacman) from this state
         """
+        numAgents = gameState.getNumAgents()
         actions = gameState.getLegalActions(agentIndex)
         minScore = float('inf')
         for action in actions:
             successor = gameState.generateSuccessor(agentIndex, action)
-            score = self.minimax(successor, depth - 1, (agentIndex + 1) % gameState.getNumAgents())
+            nextAgent = (agentIndex + 1) % numAgents
+            nextDepth = depth - 1 if nextAgent == 0 else depth
+            score = self.minimax(successor, nextDepth, nextAgent)
             minScore = min(minScore, score)
         return minScore
     
