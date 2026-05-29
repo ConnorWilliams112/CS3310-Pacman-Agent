@@ -19,6 +19,7 @@ import random, util
 from game import Agent
 from pacman import GameState
 
+# Mike  -- Reflex agent ONLY uses current game state. No searching multiple moves ahead.
 class ReflexAgent(Agent):
     """
     A reflex agent chooses an action at each choice point by examining
@@ -74,8 +75,39 @@ class ReflexAgent(Agent):
         newGhostStates = successorGameState.getGhostStates()
         newScaredTimes = [ghostState.scaredTimer for ghostState in newGhostStates]
 
-        "*** YOUR CODE HERE ***"
-        return successorGameState.getScore()
+        score = successorGameState.getScore()
+
+        # penalize for stopping
+        if action == Directions.STOP:
+            score -= 10
+
+        # reward for being close to food
+        foodList = newFood.asList()
+        if foodList:
+            closestFood = min(manhattanDistance(newPos, food) for food in foodList)
+            score += 10 / max(closestFood, 1)
+
+        # reward / penalty based on ghost state
+        for i in range(len(newGhostStates)):
+            ghostState = newGhostStates[i]
+            scaredTime = newScaredTimes[i]
+
+            ghostPos = ghostState.getPosition()
+            ghostDist = manhattanDistance(newPos, ghostPos)
+
+            # if ghost is scared, add points. More points for being closer to ghost (max(ghostDist,1))
+            if scaredTime > 0:
+                score += 20 / max(ghostDist, 1)
+
+            # ghost is not scared, subtract points for being next to it (Dist <=1)
+            elif ghostDist <= 1:
+                score -= 100
+
+            # ghost is not scared, subtract points the closer you are to it
+            else:
+                score -= 2 / ghostDist
+
+        return score
 
 def scoreEvaluationFunction(currentGameState: GameState):
     """
