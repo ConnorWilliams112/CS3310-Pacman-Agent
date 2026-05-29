@@ -265,7 +265,9 @@ class ExpectimaxAgent(MultiAgentSearchAgent):
         legal moves.
         """
         "*** YOUR CODE HERE ***"
-        util.raiseNotDefined()
+        #Returns action for the top-level call, score for recursive calls
+        actions = gameState.getLegalActions(0)
+        return max(actions, key=lambda action: self.expectimax(gameState.generateSuccessor(0, action), self.depth, 1)) # Genmini 3.1 Pro helped me debug this line as I was calling something wrong in another class
     
     def expectimax(self, gameState: GameState, depth: int, agentIndex: int):
         """
@@ -280,7 +282,12 @@ class ExpectimaxAgent(MultiAgentSearchAgent):
             The expectimax value (expected score) for the current state
         """
         "*** YOUR CODE HERE ***"
-        util.raiseNotDefined()
+        if depth == 0 or gameState.isWin() or gameState.isLose():
+            return self.evaluationFunction(gameState)
+        if agentIndex == 0: #Pacman's turn ( Now its expectimax instead of just max)
+            return self.maxValue(gameState, depth, agentIndex)  # I had a bug here Gemeni 3.1 AI helped me fix it 
+        else:
+            return self.expectValue(gameState, depth, agentIndex)
     
     def maxValue(self, gameState: GameState, depth: int, agentIndex: int):
         """
@@ -296,7 +303,16 @@ class ExpectimaxAgent(MultiAgentSearchAgent):
             The maximum score Pacman can achieve from this state
         """
         "*** YOUR CODE HERE ***"
-        util.raiseNotDefined()
+        numAgents = gameState.getNumAgents()
+        actions = gameState.getLegalActions(agentIndex)
+        maxScore = float('-inf')
+        for action in actions:
+            successor = gameState.generateSuccessor(agentIndex, action)
+            nextAgent = (agentIndex + 1) % numAgents
+            nextDepth = depth - 1 if nextAgent == 0 else depth
+            score = self.expectimax(successor, nextDepth, nextAgent)
+            maxScore = max(maxScore, score)
+        return maxScore
     
     def expectValue(self, gameState: GameState, depth: int, agentIndex: int):
         """
@@ -312,7 +328,16 @@ class ExpectimaxAgent(MultiAgentSearchAgent):
             The expected score (average of all possible ghost moves) from this state
         """
         "*** YOUR CODE HERE ***"
-        util.raiseNotDefined()
+        numAgents = gameState.getNumAgents()
+        actions = gameState.getLegalActions(agentIndex)
+        expectScore = 0 # AI Gemeni 3.1 Pro helped me debug this line. I had float and it was causing error. 
+        for action in actions:
+            successor = gameState.generateSuccessor(agentIndex, action)
+            nextAgent = (agentIndex + 1) % numAgents
+            nextDepth = depth - 1 if nextAgent == 0 else depth
+            expectScore += self.expectimax(successor, nextDepth, nextAgent) #Gemeni 3.1 Pro AI helped me figure out the + sign on this line
+        return expectScore / len(actions)    ##Gemeni 3.1 Pro AI helped me figure out the divide by len(actions)
+        
 
 
 #Miker
