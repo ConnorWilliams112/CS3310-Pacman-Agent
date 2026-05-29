@@ -444,6 +444,7 @@ def betterEvaluationFunction(currentGameState: GameState):
     if foodList:
         closestFood = min(manhattanDistance(newPos, food) for food in foodList)
         score += 10 / max(closestFood, 1)
+        score += -1 * len(foodList)
 
     # reward / penalty based on ghost state
     for i in range(len(newGhostStates)):
