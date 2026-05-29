@@ -137,7 +137,9 @@ class MinimaxAgent(MultiAgentSearchAgent):
         Returns whether or not the game state is a losing state
         """
         "*** YOUR CODE HERE ***"
-        util.raiseNotDefined()
+        #Returns action for the top-level call, score for recursive calls
+        actions = gameState.getLegalActions(0)
+        return max(actions, key=lambda action: self.minimax(gameState.generateSuccessor(0, action), self.depth - 1, 1))
     
     def minimax(self, gameState: GameState, depth: int, agentIndex: int):
         """
@@ -159,8 +161,13 @@ class MinimaxAgent(MultiAgentSearchAgent):
             - Try all legal actions, recurse with agentIndex+1 (wrapping around)
             - Return min value
         """
-        "*** YOUR CODE HERE ***"
-        util.raiseNotDefined()
+        if depth == 0 or gameState.isWin() or gameState.isLose():
+            return self.evaluationFunction(gameState)
+        if agentIndex == 0: #Pacman's turn (maximizing agent)
+            return self.maxValue(gameState, depth, agentIndex)
+        else:
+            return self.minValue(gameState, depth, agentIndex)
+        
     
     def maxValue(self, gameState: GameState, depth: int, agentIndex: int):
         """
@@ -175,8 +182,15 @@ class MinimaxAgent(MultiAgentSearchAgent):
         Returns:
             The maximum score Pacman can achieve from this state
         """
-        "*** YOUR CODE HERE ***"
-        util.raiseNotDefined()
+        numAgents = gameState.getNumAgents()
+        actions = gameState.getLegalActions(agentIndex)
+        maxScore = float('-inf')
+        for action in actions:
+            successor = gameState.generateSuccessor(agentIndex, action)
+            score = self.minimax(successor, depth - 1, (agentIndex + 1) % numAgents)
+            maxScore = max(maxScore, score)
+        return maxScore
+
     
     def minValue(self, gameState: GameState, depth: int, agentIndex: int):
         """
@@ -191,8 +205,13 @@ class MinimaxAgent(MultiAgentSearchAgent):
         Returns:
             The minimum score (best for ghosts, worst for Pacman) from this state
         """
-        "*** YOUR CODE HERE ***"
-        util.raiseNotDefined()
+        actions = gameState.getLegalActions(agentIndex)
+        minScore = float('inf')
+        for action in actions:
+            successor = gameState.generateSuccessor(agentIndex, action)
+            score = self.minimax(successor, depth - 1, (agentIndex + 1) % gameState.getNumAgents())
+            minScore = min(minScore, score)
+        return minScore
     
 
 
