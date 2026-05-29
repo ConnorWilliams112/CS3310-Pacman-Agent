@@ -450,6 +450,8 @@ def betterEvaluationFunction(currentGameState: GameState):
     if capsules:
         closestCapsule = min(manhattanDistance(newPos, capsule) for capsule in capsules)
         score += 10 / (max(closestCapsule, 1)+1)
+        score += -5 * len(capsules)
+
 
     # reward / penalty based on ghost state
     for i in range(len(newGhostStates)):
