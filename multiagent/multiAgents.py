@@ -429,8 +429,10 @@ def betterEvaluationFunction(currentGameState: GameState):
     Your extreme ghost-hunting, pellet-nabbing, food-gobbling, unstoppable
     evaluation function (question 5).
 
-    DESCRIPTION: <write something here so we know what you did>
-    """
+    DESCRIPTION: First just used the previous evaluation function 
+    and changed the actions to state problem. I got Help from Gemini Pro 3.1 to help with the transistion from the Action problem to state problem.
+    At first I just wanted to incentive food. Then I messed with Ghosts and tunning those values. I realized there is almost alwasys time to eat the Ghost and a big
+    factor in determining score so there needs to be an incentive to eating the power capsule and then eating the scared Ghosts """
     "*** YOUR CODE HERE ***"
     newPos = currentGameState.getPacmanPosition()
     newFood = currentGameState.getFood()
@@ -443,9 +445,9 @@ def betterEvaluationFunction(currentGameState: GameState):
     # reward for being close to food
     foodList = newFood.asList()
     if foodList:
-        closestFood = min(manhattanDistance(newPos, food) for food in foodList)
-        score += 10 / max(closestFood, 1)
-        score += -0.5 * len(foodList)
+        closestFood = min(manhattanDistance(newPos, food) for food in foodList) # This autofilled in with my AI Claude that I had in my browser. I messed with tuning values
+        score += 10 / max(closestFood, 1) # This autofilled in with my AI Claude that I had in my VS. I messed with tuning values
+        score += -0.5 * len(foodList) # This autofilled in with my AI Claude that I had in my VS I messed with tuning values. I messed with tuning values
     
     if capsules:
         closestCapsule = min(manhattanDistance(newPos, capsule) for capsule in capsules)
