@@ -248,11 +248,11 @@ def aStarSearch(problem: SearchProblem, heuristic=nullHeuristic):
 
 def h1(state, problem):
     '''
-    The heuristic is the straight-line distance from a node's state to the goal.
+    The heuristic is the manhattan distance from a node's state to the goal.
     '''
     x1, y1 = state
     x2, y2 = problem.goal
-    return ((x1 - x2) ** 2 + (y1 - y2) ** 2) ** 0.5
+    return  (abs(x1 - x2) + abs(y1 - y2))         # Straight line code ((x1 - x2) ** 2 + (y1 - y2) ** 2) ** 0.5  Manhattan code- abs(x1 - x2) + abs(y1 - y2)) 
 
 # Abbreviations
 bfs = breadthFirstSearch
