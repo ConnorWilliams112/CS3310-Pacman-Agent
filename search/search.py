@@ -248,11 +248,11 @@ def aStarSearch(problem: SearchProblem, heuristic=nullHeuristic):
                     frontier.put((f, child))
     return []
 
-def h1(node, problem):
+def h1(state, problem):
     '''
     The heuristic is the straight-line distance from a node's state to the goal.
     '''
-    x1, y1 = node.state
+    x1, y1 = state
     x2, y2 = problem.goal
     return ((x1 - x2) ** 2 + (y1 - y2) ** 2) ** 0.5
 
