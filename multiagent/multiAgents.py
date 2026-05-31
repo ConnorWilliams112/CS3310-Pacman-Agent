@@ -139,7 +139,6 @@ class MultiAgentSearchAgent(Agent):
         self.evaluationFunction = util.lookup(evalFn, globals())
         self.depth = int(depth)
 
-#Connor
 class MinimaxAgent(MultiAgentSearchAgent): 
     """
     Your minimax agent (question 2)
@@ -168,7 +167,6 @@ class MinimaxAgent(MultiAgentSearchAgent):
         gameState.isLose():
         Returns whether or not the game state is a losing state
         """
-        "*** YOUR CODE HERE ***"
         #Returns action for the top-level call, score for recursive calls
         actions = gameState.getLegalActions(0)
         return max(actions, key=lambda action: self.minimax(gameState.generateSuccessor(0, action), self.depth, 1))
@@ -340,7 +338,6 @@ class ExpectimaxAgent(MultiAgentSearchAgent):
         
 
 
-#Miker
 class AlphaBetaAgent(MultiAgentSearchAgent):
     """
     Your minimax agent with alpha-beta pruning (question 3)

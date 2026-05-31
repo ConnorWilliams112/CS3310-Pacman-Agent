@@ -69,8 +69,7 @@ class Node:
     the same state. Also includes the action that got us to this state, and
     the total path_cost (also known as g) to reach the node. Other functions
     may add an f and h value; see best_first_graph_search and astar_search for
-    an explanation of how the f and h values are handled. You will not need to
-    subclass this class."""
+    an explanation of how the f and h values are handled."""
 
     def __init__(self, state, parent=None, action=None, path_cost=0):
         """Create a search tree Node, derived from a parent by an action."""
@@ -111,8 +110,7 @@ class Node:
 
     # We want for a queue of nodes in breadth_first_graph_search or
     # astar_search to have no duplicated states, so we treat nodes
-    # with the same state as equal. [Problem: this may not be what you
-    # want in other contexts.]
+    # with the same state as equal.
 
     def __eq__(self, other):
         return isinstance(other, Node) and self.state == other.state
