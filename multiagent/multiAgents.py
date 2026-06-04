@@ -19,7 +19,7 @@ import random, util
 from game import Agent
 from pacman import GameState
 
-# Mike  -- Reflex agent ONLY uses current game state. No searching multiple moves ahead.
+#Reflex agent ONLY uses current game state. No searching multiple moves ahead.
 class ReflexAgent(Agent):
     """
     A reflex agent chooses an action at each choice point by examining
@@ -249,7 +249,6 @@ class MinimaxAgent(MultiAgentSearchAgent):
         return minScore
     
 
-
 class ExpectimaxAgent(MultiAgentSearchAgent):
     """
       Your expectimax agent (question 4)
@@ -336,7 +335,6 @@ class ExpectimaxAgent(MultiAgentSearchAgent):
             expectScore += self.expectimax(successor, nextDepth, nextAgent) #Gemeni 3.1 Pro AI helped me figure out the + sign on this line
         return expectScore / len(actions)    ##Gemeni 3.1 Pro AI helped me figure out the divide by len(actions)
         
-
 
 class AlphaBetaAgent(MultiAgentSearchAgent):
     """
@@ -475,8 +473,5 @@ def betterEvaluationFunction(currentGameState: GameState):
 
         
     
-
-
-
 # Abbreviation
 better = betterEvaluationFunction
