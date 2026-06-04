@@ -246,12 +246,45 @@ def aStarSearch(problem: SearchProblem, heuristic=nullHeuristic):
     return []
 
 def h1(state, problem):
-    '''
-    The heuristic is the manhattan distance from a node's state to the goal.
-    '''
+
     x1, y1 = state
     x2, y2 = problem.goal
-    return  (abs(x1 - x2) + abs(y1 - y2))         # Straight line code ((x1 - x2) ** 2 + (y1 - y2) ** 2) ** 0.5  Manhattan code- abs(x1 - x2) + abs(y1 - y2)) 
+
+    if not hasattr(problem, "walls"):
+        return abs(x1 - x2) + abs(y1 - y2)
+
+    walls = problem.walls
+    manhattan = abs(x1 - x2) + abs(y1 - y2)
+
+    def pathIsClear(horizontalFirst):
+        x, y = state
+
+        if horizontalFirst:
+            while x != x2:
+                x += 1 if x2 > x else -1
+                if walls[x][y]:
+                    return False
+            while y != y2:
+                y += 1 if y2 > y else -1
+                if walls[x][y]:
+                    return False
+        else:
+            while y != y2:
+                y += 1 if y2 > y else -1
+                if walls[x][y]:
+                    return False
+            while x != x2:
+                x += 1 if x2 > x else -1
+                if walls[x][y]:
+                    return False
+
+        return True
+
+    wallPenalty = 0
+    if not pathIsClear(True) and not pathIsClear(False):
+        wallPenalty = 2
+
+    return manhattan + wallPenalty
 
 # Abbreviations
 bfs = breadthFirstSearch
