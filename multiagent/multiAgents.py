@@ -264,7 +264,7 @@ class ExpectimaxAgent(MultiAgentSearchAgent):
         "*** YOUR CODE HERE ***"
         #Returns action for the top-level call, score for recursive calls
         actions = gameState.getLegalActions(0)
-        return max(actions, key=lambda action: self.expectimax(gameState.generateSuccessor(0, action), self.depth, 1)) # Genmini 3.1 Pro helped me debug this line as I was calling something wrong in another class
+        return max(actions, key=lambda action: self.expectimax(gameState.generateSuccessor(0, action), self.depth, 1))
     
     def expectimax(self, gameState: GameState, depth: int, agentIndex: int):
         """
@@ -282,7 +282,7 @@ class ExpectimaxAgent(MultiAgentSearchAgent):
         if depth == 0 or gameState.isWin() or gameState.isLose():
             return self.evaluationFunction(gameState)
         if agentIndex == 0: #Pacman's turn ( Now its expectimax instead of just max)
-            return self.maxValue(gameState, depth, agentIndex)  # I had a bug here Gemeni 3.1 AI helped me fix it 
+            return self.maxValue(gameState, depth, agentIndex)
         else:
             return self.expectValue(gameState, depth, agentIndex)
     
@@ -327,13 +327,13 @@ class ExpectimaxAgent(MultiAgentSearchAgent):
         "*** YOUR CODE HERE ***"
         numAgents = gameState.getNumAgents()
         actions = gameState.getLegalActions(agentIndex)
-        expectScore = 0 # AI Gemeni 3.1 Pro helped me debug this line. I had float and it was causing error. 
+        expectScore = 0
         for action in actions:
             successor = gameState.generateSuccessor(agentIndex, action)
             nextAgent = (agentIndex + 1) % numAgents
             nextDepth = depth - 1 if nextAgent == 0 else depth
-            expectScore += self.expectimax(successor, nextDepth, nextAgent) #Gemeni 3.1 Pro AI helped me figure out the + sign on this line
-        return expectScore / len(actions)    ##Gemeni 3.1 Pro AI helped me figure out the divide by len(actions)
+            expectScore += self.expectimax(successor, nextDepth, nextAgent)
+        return expectScore / len(actions)
         
 
 class AlphaBetaAgent(MultiAgentSearchAgent):
@@ -425,7 +425,7 @@ def betterEvaluationFunction(currentGameState: GameState):
     evaluation function (question 5).
 
     DESCRIPTION: First just used the previous evaluation function 
-    and changed the actions to state problem. I got Help from Gemini Pro 3.1 to help with the transistion from the Action problem to state problem.
+    and changed the actions to state problem.
     At first I just wanted to incentive food. Then I messed with Ghosts and tunning those values. I realized there is almost alwasys time to eat the Ghost and a big
     factor in determining score so there needs to be an incentive to eating the power capsule and then eating the scared Ghosts """
     "*** YOUR CODE HERE ***"
@@ -433,16 +433,16 @@ def betterEvaluationFunction(currentGameState: GameState):
     newFood = currentGameState.getFood()
     newGhostStates = currentGameState.getGhostStates()
     newScaredTimes = [ghostState.scaredTimer for ghostState in newGhostStates]
-    capsules = currentGameState.getCapsules() # AI Gemeni 3.1 Pro helped me realize that this could be used to tune since they are worth more points
+    capsules = currentGameState.getCapsules()
 
     score = currentGameState.getScore()
 
     # reward for being close to food
     foodList = newFood.asList()
     if foodList:
-        closestFood = min(manhattanDistance(newPos, food) for food in foodList) # This autofilled in with my AI Claude that I had in my browser. I messed with tuning values
-        score += 10 / max(closestFood, 1) # This autofilled in with my AI Claude that I had in my VS. I messed with tuning values
-        score += -0.5 * len(foodList) # This autofilled in with my AI Claude that I had in my VS I messed with tuning values. I messed with tuning values
+        closestFood = min(manhattanDistance(newPos, food) for food in foodList)
+        score += 10 / max(closestFood, 1)
+        score += -0.5 * len(foodList)
     
     if capsules:
         closestCapsule = min(manhattanDistance(newPos, capsule) for capsule in capsules)

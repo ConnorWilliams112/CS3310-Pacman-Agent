@@ -147,43 +147,41 @@ def depthFirstSearch(problem: SearchProblem):
     print("Start's successors:", problem.getSuccessors(problem.getStartState()))
     """
     "*** YOUR CODE HERE ***"
-    frontier = util.Stack()  # I wasn't using the util.py file at first just Lab 2 way we did it. Used Gemini 3.1 to help me use the libraries provided.
+    frontier = util.Stack()
     start_state = problem.getStartState()
     frontier.push((start_state, []))
     explored = set()
     while not frontier.isEmpty():
-        state, actions = frontier.pop()# Modifed code from lab 2 submission to start out as I was modifying the code AI Claude made suggestions on how to modfiy my lab 2 code to gte it working with this code. 
+        state, actions = frontier.pop()
 
-        if problem.isGoalState(state):            # AI (Claude) helped me modify this part of the code
+        if problem.isGoalState(state):
             return actions
-        if state not in explored:        # AI (Claude) helped me modify this part of the code from what I had in lab 2 to make it work here. 
-            explored.add(state)                             # AI (Claude) helped me modify this part of the code
-            for child in problem.getSuccessors(state):    # AI (Claude) helped me modify this part of the code
-                if child[0] not in explored:                # AI (Claude) helped me modify this part of the code
-                    frontier.push((child[0], actions + [child[1]])) # AI (Claude) helped me modify this part of the code
+        if state not in explored:
+            explored.add(state)
+            for child in problem.getSuccessors(state):
+                if child[0] not in explored:
+                    frontier.push((child[0], actions + [child[1]]))
     return []
 
 
 def breadthFirstSearch(problem: SearchProblem):
     """Search the shallowest nodes in the search tree first."""
     "*** YOUR CODE HERE ***"
-    # I used a combination of Claude AI and Gemini Pro 3.1 model to help me here. I started with lab 2 BFS and modified it to leverage the util.py file that was given in the problem.
-
-    frontier = util.Queue()                   # AI (Claude) helped me modify this part of the code
-    start_state = problem.getStartState()         # AI (Claude) helped me modify this part of the code
-    frontier.push((start_state, []))             # AI (Claude) helped me modify this part of the code 
-    explored = set()                     # AI (Claude) helped me modify this part of the code
+    frontier = util.Queue()
+    start_state = problem.getStartState()
+    frontier.push((start_state, []))
+    explored = set()
     while not frontier.isEmpty():
         state, actions = frontier.pop()
         if problem.isGoalState(state):
             return actions
         if state not in explored:
             explored.add(state)
-            for child in problem.getSuccessors(state):           # AI (Claude) helped me modify this part of the code
-                successor_state = child[0]                       # AI (Claude) helped me modify this part of the code
-                successor_action = child[1]                     # AI (Claude) helped me modify this part of the code
-                if successor_state not in explored:              # AI (Claude) helped me modify this part of the code
-                    frontier.push((successor_state, actions + [successor_action])) # AI (Claude) helped me modify this part of the code
+            for child in problem.getSuccessors(state):
+                successor_state = child[0]
+                successor_action = child[1]
+                if successor_state not in explored:
+                    frontier.push((successor_state, actions + [successor_action]))
     return None 
 
     util.raiseNotDefined()
@@ -195,9 +193,9 @@ def uniformCostSearch(problem: SearchProblem):
     # To do this i started with BFS code becuase it is very similiary in the fact that it is on a queue
     frontier = util.PriorityQueue()            
     start_state = problem.getStartState()  
-    start_item = (start_state, [], 0)                 # Gemini 3.1 Pro helped me here 
-    start_priority = 0                                 # Gemini 3.1 Pro helped me here    
-    frontier.push((start_state,[]), start_priority)   # Gemini 3.1 Pro helped me here           
+    start_item = (start_state, [], 0)
+    start_priority = 0
+    frontier.push((start_state,[]), start_priority)
     explored = set()                     
     while not frontier.isEmpty():
         state, actions = frontier.pop()
@@ -209,10 +207,10 @@ def uniformCostSearch(problem: SearchProblem):
                 successor_state = child[0]                       
                 successor_action = child[1]                     
                 if successor_state not in explored:   
-                    next_actions = actions + [successor_action]                # Gemini 3.1 Pro helped me here
-                    item = (successor_state, next_actions)                    # Gemini 3.1 Pro helped me here
-                    priority = problem.getCostOfActions(next_actions)         # Gemini 3.1 Pro helped me here
-                    frontier.update(item, priority)                             # Gemini 3.1 Pro helped me here
+                    next_actions = actions + [successor_action]
+                    item = (successor_state, next_actions)
+                    priority = problem.getCostOfActions(next_actions)
+                    frontier.update(item, priority)
     return None 
 
 
